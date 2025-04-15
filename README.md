@@ -16,6 +16,7 @@ This project serves as a hands-on learning experience for automation testing. It
 - **Maven**: A build automation tool used for managing project dependencies.
 
 ## Project Structure
+```
 /automation-testing-project
 │
 ├── /src
@@ -41,6 +42,6 @@ This project serves as a hands-on learning experience for automation testing. It
 │
 ├── pom.xml
 └── README.md
-
+```
 ## Contributing
 I am not really looking for contributions, but you are welcome to send suggestions for improvements or new features, please create an issue or send a message!
