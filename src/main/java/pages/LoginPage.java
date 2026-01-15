@@ -2,23 +2,28 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.PageUtils;
+
+import java.time.Duration;
 
 public class LoginPage {
     protected WebDriver driver;
+    protected WebDriverWait wait;
 
     // Locators
-    private By logoBy = By.cssSelector(".logo");
-    private By emailBy = By.name("email");
-    private By passwordBy = By.name("password");
-    private By loginButtonBy = By.tagName("button");
-    private By signUpLinkBy = By.cssSelector(".signup");
+    private final By logoBy = By.cssSelector(".logo");
+    private final By emailBy = By.name("email");
+    private final By passwordBy = By.name("password");
+    private final By loginButtonBy = By.tagName("button");
+    private final By signUpLinkBy = By.cssSelector(".signup");
 
     // Constructor checks if on login page
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-        if (!driver.getTitle().contains("Login")) {
-            throw new IllegalStateException("This is not the Login page, you're at " + driver.getCurrentUrl());
-        }
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageUtils.verifyPageTitle(driver, "Login");
     }
 
     /*
@@ -26,28 +31,22 @@ public class LoginPage {
      */
 
     public void clickLogo() {
-        if (driver.findElement(logoBy).isDisplayed()) {
-            driver.findElement(logoBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(logoBy)).click();
     }
 
     public void enterEmail(String email) {
-        driver.findElement(emailBy).sendKeys(email);
+        wait.until(ExpectedConditions.elementToBeClickable(emailBy)).sendKeys(email);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordBy).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(passwordBy)).sendKeys(password);
     }
 
     public void clickLogin() {
-        if (driver.findElement(loginButtonBy).isDisplayed()) {
-            driver.findElement(loginButtonBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(loginButtonBy)).click();
     }
 
     public void clickSignUp() {
-        if (driver.findElement(signUpLinkBy).isDisplayed()) {
-            driver.findElement(signUpLinkBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(signUpLinkBy)).click();
     }
 }

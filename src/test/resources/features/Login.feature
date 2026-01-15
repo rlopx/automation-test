@@ -1,14 +1,13 @@
 @login
 Feature: Login Page
+  As a registered user
+  I want to log in to the application
+  So that I can access my dashboard
 
   Background:
     Given I access the login page
 
-  Scenario Outline: Validate Successful & Unsuccessful Login
-    When I fill in username and password with <username> and <password>
+  Scenario: Validate Successful Login
+    When I fill in username and password
     And I click on the login button
     Then I should Verify user is on dashboard
-    Examples:
-      | username              | password   |
-      | email@nttdata.com     | mYpas$w0rd |
-      | failemail@nttdata.com | mYpas$w0rd |

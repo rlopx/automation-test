@@ -4,6 +4,9 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import utils.*;
+import stepDefinitions.*;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +24,21 @@ public class Hooks {
         getDriver();
     }
 
+    @Before("login")
+    public void registerUserBefore() {
+        ApiUtils.registerUser(
+                RegisterTests.registerName,
+                RegisterTests.registerSurname,
+                RegisterTests.registerEmail,
+                "912345678",
+                "Rua da Terra Fria",
+                "0000-000",
+                "Coimbra",
+                "Portugal",
+                RegisterTests.registerPassword,
+                RegisterTests.registerPassword);
+    }
+
     @AfterStep
     public void captureExceptionImage(Scenario scenario) {
         if (scenario.isFailed()) {
@@ -30,6 +48,14 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) getDriver())
                     .getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", timeMilliseconds); //attaches image to failed steps
+        }
+    }
+
+    @After("@register or @login")
+    public void cleanupAccount() {
+        if (RegisterTests.registerEmail != null && !RegisterTests.registerEmail.isEmpty()) {
+            System.out.println("Cleaning up registered account: " + RegisterTests.registerEmail);
+            ApiUtils.deleteUserAccount(RegisterTests.registerEmail);
         }
     }
 

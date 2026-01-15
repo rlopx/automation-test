@@ -4,14 +4,19 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.LoginPage;
+
+import java.time.Duration;
 
 import static driver.DriverFactory.getDriver;
 
 public class LoginTests {
-    private WebDriver driver = getDriver();
+    private final WebDriver driver = getDriver();
     private LoginPage login;
 
     @Given("I access the login page")
@@ -20,10 +25,10 @@ public class LoginTests {
         login = new LoginPage(driver);
     }
 
-    @When("I fill in username and password with {word} and {}")
-    public void fill_username_and_password(String email, String password) {
-        login.enterEmail(email);
-        login.enterPassword(password);
+    @When("I fill in username and password")
+    public void fill_username_and_password() {
+        login.enterEmail(RegisterTests.registerEmail);
+        login.enterPassword(RegisterTests.registerPassword);
     }
 
     @And("I click on the login button")
@@ -33,6 +38,8 @@ public class LoginTests {
 
     @Then("I should Verify user is on dashboard")
     public void check_dashboard_page() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.urlContains("dashboard"));
+        Assert.assertTrue(driver.findElement(By.tagName("h1")).getText().contains("Welcome"));
     }
 }

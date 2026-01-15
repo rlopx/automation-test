@@ -1,89 +1,89 @@
 package pages;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.PageUtils;
+
+import java.time.Duration;
 
 public class RegisterPage {
     protected WebDriver driver;
+    private final WebDriverWait wait;
 
-    private By logoBy = By.cssSelector(".logo");
-    private By nameBy = By.name("name");
-    private By surnameBy = By.name("surname");
-    private By emailBy = By.name("email");
-    private By phoneNumberBy = By.name("phone_number");
-    private By addressBy = By.name("street_address");
-    private By postalCodeBy = By.name("postal_code");
-    private By cityBy = By.name("city");
-    private By countryBy = By.id("react-select-2-input");
-    private By passwordBy = By.name("password");
-    private By confirmPasswordBy = By.name("confirmPassword");
-    private By signUpButtonBy = By.tagName("button");
-    private By signInLinkBy = By.cssSelector(".signup");
+    private final By logoBy = By.cssSelector(".logo");
+    private final By nameBy = By.name("name");
+    private final By surnameBy = By.name("surname");
+    private final By emailBy = By.name("email");
+    private final By phoneNumberBy = By.name("phone_number");
+    private final By addressBy = By.name("street_address");
+    private final By postalCodeBy = By.name("postal_code");
+    private final By cityBy = By.name("city");
+    private final By countryBy = By.id("react-select-2-input");
+    private final By passwordBy = By.name("password");
+    private final By confirmPasswordBy = By.name("confirmPassword");
+    private final By signUpButtonBy = By.tagName("button");
+    private final By signInLinkBy = By.cssSelector(".signup");
 
     public void clickLogo() {
-        if (driver.findElement(logoBy).isDisplayed()) {
-            driver.findElement(logoBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(logoBy)).click();
     }
 
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
-        if (!driver.getTitle().contains("Register")) {
-            throw new IllegalStateException("This is not the Register page, you're at " + driver.getCurrentUrl());
-        }
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageUtils.verifyPageTitle(driver, "Register");
     }
 
     public void enterName(String name) {
-        driver.findElement(nameBy).sendKeys(name);
+        wait.until(ExpectedConditions.elementToBeClickable(nameBy)).sendKeys(name);
     }
 
     public void enterSurname(String surname) {
-        driver.findElement(surnameBy).sendKeys(surname);
+        wait.until(ExpectedConditions.elementToBeClickable(surnameBy)).sendKeys(surname);
     }
 
     public void enterEmail(String email) {
-        driver.findElement(emailBy).sendKeys(email);
+        wait.until(ExpectedConditions.elementToBeClickable(emailBy)).sendKeys(email);
     }
 
     public void enterPhone(String phone) {
-        driver.findElement(phoneNumberBy).sendKeys(phone);
+        wait.until(ExpectedConditions.elementToBeClickable(phoneNumberBy)).sendKeys(phone);
     }
 
     public void enterAddress(String address) {
-        driver.findElement(addressBy).sendKeys(address);
+        wait.until(ExpectedConditions.elementToBeClickable(addressBy)).sendKeys(address);
     }
 
     public void enterPostalCode(String postalCode) {
-        driver.findElement(postalCodeBy).sendKeys(postalCode);
+        wait.until(ExpectedConditions.elementToBeClickable(postalCodeBy)).sendKeys(postalCode);
     }
 
     public void enterCity(String city) {
-        driver.findElement(cityBy).sendKeys(city);
+        wait.until(ExpectedConditions.elementToBeClickable(cityBy)).sendKeys(city);
     }
 
     public void enterCountry(String country) {
-        driver.findElement(countryBy).sendKeys(country);
-        driver.findElement(countryBy).sendKeys(Keys.ENTER);
+        wait.until(ExpectedConditions.elementToBeClickable(countryBy)).sendKeys(country);
+        wait.until(ExpectedConditions.elementToBeClickable(countryBy)).sendKeys(Keys.ENTER);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordBy).sendKeys(password);
+        wait.until(ExpectedConditions.elementToBeClickable(passwordBy)).sendKeys(password);
     }
 
     public void enterConfirmPassword(String confirmPassword) {
-        driver.findElement(confirmPasswordBy).sendKeys(confirmPassword);
+        wait.until(ExpectedConditions.elementToBeClickable(confirmPasswordBy)).sendKeys(confirmPassword);
     }
 
     public void clickSignUp() {
-        if (driver.findElement(signUpButtonBy).isDisplayed()) {
-            driver.findElement(signUpButtonBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(signUpButtonBy)).click();
     }
 
     public void clickSignIn() {
-        if (driver.findElement(signInLinkBy).isDisplayed()) {
-            driver.findElement(signInLinkBy).click();
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(signInLinkBy)).click();
     }
 }

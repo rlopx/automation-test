@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class DriverFactory {
-    private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>(); // this allows parallel instances of the tests
+    private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>(); // this allows parallel instances of the tests
 
     public static WebDriver getDriver() {
         if (webDriver.get() == null) {
@@ -30,11 +30,9 @@ public class DriverFactory {
                     driver = new ChromeDriver(chromeOptions);
                 */
                 driver = new ChromeDriver();
-                break;
             }
             case "firefox" -> {
                 driver = new FirefoxDriver();
-                break;
             }
         }
         driver.manage().window().maximize();
@@ -57,7 +55,9 @@ public class DriverFactory {
     }
 
     public static void cleanupDriver() {
-        webDriver.get().quit(); // quit window
-        webDriver.remove(); // remove driver from thread
+        if (webDriver.get() != null) {
+            webDriver.get().quit(); // quit window
+            webDriver.remove(); // remove driver from thread
+        }
     }
 }
