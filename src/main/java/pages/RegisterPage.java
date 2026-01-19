@@ -27,6 +27,7 @@ public class RegisterPage {
     private final By confirmPasswordBy = By.name("confirmPassword");
     private final By signUpButtonBy = By.tagName("button");
     private final By signInLinkBy = By.cssSelector(".signup");
+    private final By termsCheckBoxBy = By.id("terms");
 
     public void clickLogo() {
         wait.until(ExpectedConditions.elementToBeClickable(logoBy)).click();
@@ -80,6 +81,7 @@ public class RegisterPage {
     }
 
     public void clickSignUp() {
+        wait.until(ExpectedConditions.elementToBeClickable(termsCheckBoxBy)).click();
         wait.until(ExpectedConditions.elementToBeClickable(signUpButtonBy)).click();
     }
 
