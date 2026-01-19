@@ -8,9 +8,16 @@ import utils.PageUtils;
 
 import java.time.Duration;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+
+    // Constructor checks if on login page
+    public LoginPage(WebDriver driver) {
+        super(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageUtils.verifyPageTitle(driver, "Login");
+    }
 
     // Locators
     private final By logoBy = By.cssSelector(".logo");
@@ -19,17 +26,9 @@ public class LoginPage {
     private final By loginButtonBy = By.tagName("button");
     private final By signUpLinkBy = By.cssSelector(".signup");
 
-    // Constructor checks if on login page
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        PageUtils.verifyPageTitle(driver, "Login");
-    }
-
     /*
      * Encapsulations to interact with page
      */
-
     public void clickLogo() {
         wait.until(ExpectedConditions.elementToBeClickable(logoBy)).click();
     }

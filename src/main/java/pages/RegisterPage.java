@@ -10,9 +10,15 @@ import utils.PageUtils;
 
 import java.time.Duration;
 
-public class RegisterPage {
-    protected WebDriver driver;
+public class RegisterPage extends BasePage {
     private final WebDriverWait wait;
+
+    // ==== Constructor =========
+    public RegisterPage(WebDriver driver) {
+        super(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageUtils.verifyPageTitle(driver, "Register");
+    }
 
     private final By logoBy = By.cssSelector(".logo");
     private final By nameBy = By.name("name");
@@ -27,15 +33,10 @@ public class RegisterPage {
     private final By confirmPasswordBy = By.name("confirmPassword");
     private final By signUpButtonBy = By.tagName("button");
     private final By signInLinkBy = By.cssSelector(".signup");
+    private final By termsCheckBoxBy = By.id("terms");
 
     public void clickLogo() {
         wait.until(ExpectedConditions.elementToBeClickable(logoBy)).click();
-    }
-
-    public RegisterPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        PageUtils.verifyPageTitle(driver, "Register");
     }
 
     public void enterName(String name) {
@@ -80,6 +81,7 @@ public class RegisterPage {
     }
 
     public void clickSignUp() {
+        wait.until(ExpectedConditions.elementToBeClickable(termsCheckBoxBy)).click();
         wait.until(ExpectedConditions.elementToBeClickable(signUpButtonBy)).click();
     }
 
