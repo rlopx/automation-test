@@ -28,7 +28,7 @@ public class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
         try {
             WebElement error = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(globalErrorMessage)
+                ExpectedConditions.visibilityOfElementLocated(globalErrorMessage)
             );
             Assert.fail("❌ Global error displayed: " + error.getText().trim());
         } catch (Exception ignored) {

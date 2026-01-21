@@ -1,12 +1,10 @@
 package driver;
 
+import config.Config;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 public class DriverFactory {
     private static final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>(); // this allows parallel instances of the tests
@@ -20,18 +18,13 @@ public class DriverFactory {
 
     private static WebDriver createDriver() {
         WebDriver driver = null;
-
         switch (getBrowserType()) {
             case "chrome" -> {
-                /*  The following makes Webdriver not to load url
-
-                    ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL); //load full page before test
-                    driver = new ChromeDriver(chromeOptions);
-                */
+                WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
             }
             case "firefox" -> {
+                WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
             }
         }
@@ -40,18 +33,7 @@ public class DriverFactory {
     }
 
     private static String getBrowserType() {
-        String browserType = null;
-
-        try {
-            Properties properties = new Properties();
-            FileInputStream file = new FileInputStream(System.getProperty("user.dir") + "/src/main/java/properties/config.properties");
-            properties.load(file);
-            browserType = properties.getProperty("browser").toLowerCase().trim();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return browserType;
+        return Config.getBrowser().toLowerCase().trim();
     }
 
     public static void cleanupDriver() {

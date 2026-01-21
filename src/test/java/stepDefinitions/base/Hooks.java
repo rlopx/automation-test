@@ -1,15 +1,19 @@
 package stepDefinitions.base;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import context.ScenarioContext;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import utils.*;
-import stepDefinitions.*;
-
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import utils.ApiAssertions;
+import utils.ApiUtils;
+import utils.TestDataReader;
 
 import java.sql.Timestamp;
 
@@ -21,22 +25,26 @@ public class Hooks {
 
     @Before
     public void setup() {
+        ApiUtils.restConfig();
+        RestAssured.baseURI = "https://monetis-delta.vercel.app/api";
         getDriver();
     }
 
-    @Before("login")
+    @Before("@login")
     public void registerUserBefore() {
-        ApiUtils.registerUser(
-                RegisterTests.registerName,
-                RegisterTests.registerSurname,
-                RegisterTests.registerEmail,
-                "912345678",
-                "Rua da Terra Fria",
-                "0000-000",
-                "Coimbra",
-                "Portugal",
-                RegisterTests.registerPassword,
-                RegisterTests.registerPassword);
+        JsonNode users = TestDataReader.getJsonData("users.json");
+        JsonNode validUser = users.get("validUser");
+        System.out.println("// ==========================");
+        System.out.println("//  API");
+        System.out.println("// ==========================\n");
+        System.out.println(validUser.toString());
+        Response response = ApiUtils.registerUser(validUser);
+        System.out.println(response.getBody().asString());
+        ApiAssertions.assertStatus(response, 200, 201);
+        System.out.println("// ==========================\n");
+        // Store for later use (login + cleanup)
+        ScenarioContext.set("email", validUser.get("email").asText());
+        ScenarioContext.set("password", validUser.get("password").asText());
     }
 
     @AfterStep
@@ -53,14 +61,20 @@ public class Hooks {
 
     @After("@register or @login")
     public void cleanupAccount() {
-        if (RegisterTests.registerEmail != null && !RegisterTests.registerEmail.isEmpty()) {
-            System.out.println("Cleaning up registered account: " + RegisterTests.registerEmail);
-            ApiUtils.deleteUserAccount(RegisterTests.registerEmail);
+        String email = (String) ScenarioContext.get("email");
+        String password = (String) ScenarioContext.get("password");
+        System.out.println("// ==========================");
+        System.out.println("//  API");
+        System.out.println("// ==========================\n");
+        if (email != null) {
+            ApiUtils.deleteUserAccount(email, password);
         }
+        System.out.println("// ==========================\n");
     }
 
     @After
     public void tearDown() {
+        ScenarioContext.clear();
         cleanupDriver();
     }
 }

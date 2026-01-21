@@ -1,0 +1,42 @@
+{
+  "validUser": {
+    "name": "Joe",
+    "surname": "King",
+    "email": "testingaccount@test.com",
+    "phone_number": "910000007",
+    "street_address": "Rua de Chão",
+    "postal_code": "0000-000",
+    "city": "Coimbra",
+    "country": "PT",
+    "password": "testingPassword!1",
+    "confirmPassword": "testingPassword!1"
+  },
+  "user1": {
+    "name": "Paige",
+    "surname": "Turner",
+    "email": "painer@test.com",
+    "phone_number": "910000001",
+    "street_address": "Rua Primeira",
+    "postal_code": "0000-000",
+    "city": "Lisboa",
+    "country": "Portugal",
+    "password": "testingPassword!1",
+    "confirmPassword": "testingPassword!1"
+  },
+  "user2": {
+    "name": "Justin",
+    "surname": "Case",
+    "email": "cased@test.com",
+    "phone_number": "910000002",
+    "street_address": "Rua Segunda",
+    "postal_code": "0000-000",
+    "city": "Lisboa",
+    "country": "Portugal",
+    "password": "testingPassword!2",
+    "confirmPassword": "testingPassword!2"
+  },
+  "invalidUser": {
+    "username": "wronguser",
+    "password": "wrongpass"
+  }
+}

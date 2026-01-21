@@ -7,7 +7,6 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = {"classpath:features"},
         glue = {"stepDefinitions", "driver.base"},
-        tags = "@login or @register",
         monochrome = true, dryRun = false,
         plugin = {"pretty", "html:target/cucumber"})
 /*
